@@ -10,10 +10,9 @@
       --surface:#ffffff;
       --text:#111827;
       --muted:#6b7280;
-      --line:#e5e7eb;
       --shadow:0 16px 30px rgba(17,24,39,.10);
 
-      /* 統一配色（Header 同一套紫色系） */
+      /* 统一配色（和 Header 同一套紫色系） */
       --p1:#5b5cf6;
       --p2:#7c3aed;
       --p3:#a78bfa;
@@ -22,7 +21,6 @@
 
       --btn:#0f172a;
       --btnHover:#4f46e5;
-      --radius:18px;
     }
 
     *{box-sizing:border-box}
@@ -123,7 +121,6 @@
 
     .dayInfo{
       flex:1;
-      background:transparent;
       padding-top:10px;
       min-width:0;
     }
@@ -142,23 +139,24 @@
       line-height:1.5;
     }
 
-    .notice{
+    .remind{
       margin-top:10px;
       padding:10px 12px;
       border-radius:14px;
-      background:rgba(255,255,255,.16);
-      border:1px solid rgba(255,255,255,.22);
-      color:#ffffff;
-      font-size:12px;
-      font-weight:800;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(91,92,246,.18);
+      box-shadow:0 10px 20px rgba(17,24,39,.06);
       display:flex;
       align-items:flex-start;
       gap:10px;
+      color:#4f46e5;
+      font-size:12px;
+      font-weight:800;
     }
-    .notice .badge{
+    .remind .icon{
       width:18px;height:18px;border-radius:8px;
       display:grid;place-items:center;
-      background:rgba(255,255,255,.22);
+      background:rgba(91,92,246,.16);
       flex:0 0 auto;
       margin-top:1px;
     }
@@ -192,7 +190,7 @@
       box-shadow:0 8px 18px rgba(17,24,39,.12);
     }
 
-    /* 整張卡片可點擊，直接進入 Google Maps 路線模式 */
+    /* 整張卡片可點擊，直接 Google 導航 */
     .cardLink{
       display:block;
       text-decoration:none;
@@ -309,13 +307,15 @@
       .btn:hover{background:var(--btnHover)}
     }
 
-    /* 小圖標（純 CSS） */
+    /* 小图标（纯 CSS） */
     .i{display:inline-block; width:16px; height:16px; position:relative;}
     .i.clock::before{content:"";position:absolute;inset:0;border:2px solid rgba(75,85,99,.55);border-radius:999px;}
-    .i.clock::after{content:"";position:absolute;left:50%;top:50%;width:2px;height:6px;background:rgba(75,85,99,.55);transform:translate(-50%,-90%);border-radius:2px;box-shadow:4px 3px 0 0 rgba(75,85,99,.55);} 
+    .i.clock::after{content:"";position:absolute;left:50%;top:50%;width:2px;height:6px;background:rgba(75,85,99,.55);transform:translate(-50%,-90%);border-radius:2px;box-shadow:4px 3px 0 0 rgba(75,85,99,.55);}
+
     .i.nav::before{content:"";position:absolute;left:2px;top:3px;width:12px;height:10px;border:2px solid rgba(255,255,255,.9);border-left:0;border-bottom:0;transform:rotate(45deg);border-radius:2px;}
-    .i.map::before{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border-radius:12px;border:2px solid rgba(255,255,255,.9);} 
-    .i.map::after{content:"";position:absolute;left:7px;top:7px;width:4px;height:4px;border-radius:999px;background:rgba(255,255,255,.9);transform:translate(-50%,-50%);} 
+
+    .i.map::before{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border-radius:12px;border:2px solid rgba(255,255,255,.9);}
+    .i.map::after{content:"";position:absolute;left:7px;top:7px;width:4px;height:4px;border-radius:999px;background:rgba(255,255,255,.9);transform:translate(-50%,-50%);}
 
     .end{
       margin:8px 0 18px;
@@ -328,21 +328,17 @@
 </head>
 <body>
   <div class="phone">
+
     <header>
       <div class="topbar">
-        <div class="chip" id="dateChip">2026.10.10</div>
-        <button class="pin" id="openMapAll" type="button" title="打開 Google Maps（路線模式：前往第一站）">
+        <div class="chip" id="chipDate">2024.05.20</div>
+        <button class="pin" id="openMapAll" type="button" title="打開 Google 地圖（路線模式）">
           <span class="i map" aria-hidden="true"></span>
         </button>
       </div>
 
-      <h1>探索猴硐<br/>與九份</h1>
-      <p class="sub">共 1 天行程・山城健行與貓村時光</p>
-
-      <div class="notice" aria-label="提醒事項">
-        <div class="badge" aria-hidden="true">!</div>
-        <div>提醒事項：請穿著輕鬆健行服裝</div>
-      </div>
+      <h1>探索猴硐與九份</h1>
+      <p class="sub">共 1 天行程・探索猴硐與九份山城</p>
     </header>
 
     <div class="wrap">
@@ -354,7 +350,12 @@
         </div>
         <div class="dayInfo">
           <h2 class="title">Day 1 ／ 猴硐九份一日遊</h2>
-          <p class="desc">每一張行程卡片都可直接點擊，會自動進入 Google Maps 的「路線模式」（目前位置 → 目的地）。</p>
+          <p class="desc">山城健行與貓村時光。每一張行程卡片都可直接點擊，立刻開啟 Google 導航。</p>
+
+          <div class="remind">
+            <div class="icon" aria-hidden="true">!</div>
+            <div>提醒事項：請穿著輕鬆健行服裝</div>
+          </div>
         </div>
       </section>
 
@@ -364,11 +365,10 @@
   </div>
 
   <script>
-    // ===== 日期（未來要修改日期：只改這一行即可） =====
-    const TRIP_DATE = '2024.05.20';
-    document.getElementById('dateChip').textContent = TRIP_DATE;
+    // ========= 可自行修改的設定 =========
+    const TRIP_DATE = '2024.05.20'; // 左上角日期：未來只要改這一行即可
 
-    // ===== 行程資料（圖片改成本地 PNG：images/ 目錄）=====
+    // ========= 行程資料（圖片使用本地 PNG；避免外連失效與亂碼） =========
     const schedule = [
       {
         time: '09:20',
@@ -392,8 +392,8 @@
         time: '10:40',
         type: '景點',
         place: '猴硐車站周邊',
-        subtitle: '步行抵達（貓村／煤礦園區）',
-        intro: '步行至車站周邊，走訪猴硐貓村與煤礦相關景點，感受山城與礦業歷史交織的氛圍。',
+        subtitle: '步行抵達（貓村／煤礦園區／休閒園區）',
+        intro: '步行抵達。走訪猴硐貓村、猴硐煤礦博物園區與猴硐坑休閒園區，感受獨特氛圍。',
         img: './images/houtong-station.png',
         highlight: '貓奴天堂與礦業歷史一次滿足',
       },
@@ -420,42 +420,65 @@
         type: '景點',
         place: '九份老街（豎崎路入口）',
         subtitle: '飯後散步',
-        intro: '從派出所旁的豎崎路進入老街，沿途小吃、茶館與山城巷弄，慢慢逛最有味道。',
+        intro: '從派出所旁的豎崎路出發，漫步九份老街，沿途小吃、茶館與山城巷弄，慢慢逛最有味道。',
         img: './images/jiufen-oldstreet.png',
         highlight: '建議穿好走的鞋、留意階梯路段',
+        // 需求：顯示名稱不變，但導航目的地改成指定地址（可自行修改）
+        destination: '九份紅樓景觀餐廳 224008新北市瑞芳區輕便路131號'
       },
       {
         time: '15:30',
         type: '交通',
-        place: '台陽停車場',
-        subtitle: '集合返程',
-        intro: '回到集合點，清點人員與物品後準備返程。若時間允許可先在附近補買伴手禮。',
+        place: '台陽停車場（集合點）',
+        subtitle: '準備返程',
+        intro: '抵達集合地點，清點人員與物品後準備返程。',
         img: './images/taiyang-parking.png',
         highlight: '集合時間固定，請準時回到停車場',
       },
     ];
 
-    const timeline = document.getElementById('timeline');
+    const $ = (sel) => document.querySelector(sel);
+    const timeline = $('#timeline');
 
-    // Google Maps：路線模式（目前位置 → 目的地）
-    function mapsDirUrl(destination){
-      return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&travelmode=driving&dir_action=navigate`;
+    // 日期顯示
+    $('#chipDate').textContent = TRIP_DATE;
+
+    // ========= 導航：Google Maps 路線模式（目前位置 → 目的地） =========
+    // 自動判斷走路 / 開車：
+    // - subtitle 或 place 含「步行」「老街」「車站周邊」→ walking
+    // - 其他預設 driving
+    function autoTravelMode(item){
+      const s = `${item.place||''} ${item.subtitle||''}`;
+      const walkingKeywords = ['步行','老街','車站周邊'];
+      return walkingKeywords.some(k => s.includes(k)) ? 'walking' : 'driving';
     }
 
-    // Header 右上角：直接導航到第一站
-    document.getElementById('openMapAll').addEventListener('click', () => {
-      window.open(mapsDirUrl(schedule[0].place), '_blank', 'noopener');
+    // 目的地：若有 destination 就用 destination，否則用 place
+    function destinationText(item){
+      return (item.destination && String(item.destination).trim()) ? item.destination : item.place;
+    }
+
+    function mapsDirUrl(item){
+      const mode = item.travelMode || autoTravelMode(item);
+      const dest = destinationText(item);
+      return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}&travelmode=${encodeURIComponent(mode)}&dir_action=navigate`;
+    }
+
+    // Header 右上角：直接導到第一站（路線模式）
+    $('#openMapAll').addEventListener('click', () => {
+      const first = schedule[0];
+      window.open(mapsDirUrl(first), '_blank', 'noopener');
     });
 
     function cardTemplate(item, isLast){
-      const href = mapsDirUrl(item.place);
+      const href = mapsDirUrl(item);
 
       return `
         <section class="itemWrap">
           <div class="dotpoint" aria-hidden="true"></div>
           ${!isLast ? '<div class="dotline" aria-hidden="true"></div>' : ''}
 
-          <a class="cardLink" href="${href}" target="_blank" rel="noopener noreferrer" aria-label="開啟 Google Maps 路線：${item.place}">
+          <a class="cardLink" href="${href}" target="_blank" rel="noopener noreferrer" aria-label="開啟 Google 導航：${item.place}">
             <article class="card">
               <div class="cardInner">
                 <div class="meta">
@@ -475,7 +498,7 @@
 
                 ${item.img ? `
                   <div class="imgBox" aria-hidden="true">
-                    <img src="${item.img}" alt="${item.place}" loading="lazy" decoding="async" onerror="this.style.display='none'" />
+                    <img src="${item.img}" alt="${item.place}" loading="lazy" onerror="this.style.display='none'" />
                     <div class="imgFade"></div>
                   </div>
                 ` : ''}
@@ -498,6 +521,12 @@
     }
 
     render();
+
+    // ========= 教學：如何修改「九份老街」導航目的地 =========
+    // 只要找到 schedule 裡 place = '九份老街（豎崎路入口）' 這一段，
+    // 修改 destination 這一行即可，例如：
+    // destination: '九份紅樓景觀餐廳 224008新北市瑞芳區輕便路131號'
   </script>
 </body>
 </html>
+
