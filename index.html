@@ -1,12 +1,511 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>旅遊行程</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>旅遊行程</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#0f1b33;
+      --card:#0f213f;
+      --text:#eaf0ff;
+      --muted:#a9b6d3;
+      --line:rgba(255,255,255,.10);
+      --accent:#7c5cff;
+      --accent2:#22c55e;
+      --danger:#ef4444;
+      --shadow: 0 18px 45px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC",sans-serif;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(124,92,255,.35), transparent 55%),
+        radial-gradient(900px 500px at 85% 10%, rgba(34,197,94,.22), transparent 60%),
+        radial-gradient(900px 500px at 50% 115%, rgba(56,189,248,.18), transparent 55%),
+        var(--bg);
+      color:var(--text);
+    }
+
+    header{
+      position:sticky; top:0; z-index:10;
+      padding:14px 14px 10px;
+      background:linear-gradient(180deg, rgba(11,18,32,.92), rgba(11,18,32,.60));
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+    }
+    .brand{
+      display:flex; flex-direction:column; line-height:1.1;
+    }
+    .brand .h{
+      font-size:16px; font-weight:700; letter-spacing:.2px;
+    }
+    .brand .s{
+      font-size:12px; color:var(--muted);
+      margin-top:4px;
+    }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      user-select:none;
+    }
+    .dot{width:8px;height:8px;border-radius:999px;background:var(--accent)}
+
+    .wrap{padding:14px; padding-bottom:110px;}
+
+    .controls{
+      margin-top:10px;
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .seg{
+      display:flex; gap:8px; flex:1;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px;
+      min-width:220px;
+    }
+    .seg button{
+      flex:1;
+      border:0;
+      padding:10px 10px;
+      border-radius:999px;
+      background:transparent;
+      color:var(--muted);
+      font-weight:600;
+      cursor:pointer;
+    }
+    .seg button.active{
+      background:linear-gradient(135deg, rgba(124,92,255,.30), rgba(124,92,255,.16));
+      color:var(--text);
+      box-shadow: inset 0 0 0 1px rgba(124,92,255,.35);
+    }
+
+    .btn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .btn:active{transform:translateY(1px)}
+
+    .timeline{
+      margin-top:14px;
+      display:flex; flex-direction:column; gap:12px;
+    }
+
+    .item{
+      position:relative;
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(15,33,63,.92), rgba(15,27,51,.92));
+      border:1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .item::before{
+      content:"";
+      position:absolute;
+      left:18px; top:18px; bottom:18px;
+      width:2px;
+      background:linear-gradient(180deg, rgba(124,92,255,.85), rgba(255,255,255,0));
+      opacity:.35;
+    }
+
+    .row{
+      display:flex; gap:12px; align-items:flex-start;
+      padding:14px 14px 12px;
+    }
+
+    .badge{
+      width:34px; height:34px;
+      border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(124,92,255,.12);
+      border:1px solid rgba(124,92,255,.22);
+      flex:0 0 auto;
+      margin-left:6px;
+    }
+    .badge .mini{
+      width:10px;height:10px;border-radius:999px;background:var(--accent);
+      box-shadow:0 0 0 6px rgba(124,92,255,.12);
+    }
+
+    .content{flex:1; min-width:0;}
+    .meta{display:flex; align-items:center; justify-content:space-between; gap:12px;}
+    .time{font-size:12px; color:var(--muted);}
+
+    .title{
+      font-size:15px;
+      font-weight:800;
+      margin-top:6px;
+      letter-spacing:.2px;
+    }
+    .place{
+      margin-top:6px;
+      font-size:13px;
+      color:rgba(234,240,255,.92);
+      line-height:1.45;
+    }
+
+    .chips{margin-top:10px; display:flex; flex-wrap:wrap; gap:8px;}
+    .chip{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--muted);
+    }
+
+    details{
+      border-top:1px solid var(--line);
+      padding:10px 14px 12px;
+      background:rgba(255,255,255,.02);
+    }
+    summary{
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      cursor:pointer;
+      user-select:none;
+      color:var(--muted);
+      font-weight:700;
+      padding:6px 0;
+    }
+    summary::-webkit-details-marker{display:none}
+
+    .actions{display:flex; gap:10px; margin-top:8px;}
+    .a{
+      flex:1;
+      text-align:center;
+      padding:10px 12px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:800;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    }
+    .a.primary{
+      border-color:rgba(124,92,255,.45);
+      background:linear-gradient(135deg, rgba(124,92,255,.35), rgba(124,92,255,.12));
+    }
+    .a.good{
+      border-color:rgba(34,197,94,.35);
+      background:linear-gradient(135deg, rgba(34,197,94,.20), rgba(34,197,94,.08));
+    }
+
+    .state{
+      display:flex; align-items:center; gap:10px;
+      margin-top:10px;
+    }
+    .check{
+      appearance:none;
+      width:22px;height:22px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.20);
+      background:rgba(255,255,255,.06);
+      display:grid; place-items:center;
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+    .check:checked{
+      background:rgba(34,197,94,.18);
+      border-color:rgba(34,197,94,.45);
+    }
+    .check:checked::after{content:"✓"; font-weight:900; color:rgba(234,240,255,.95); font-size:14px;}
+    .label{font-size:13px; color:var(--muted)}
+
+    .item.done{opacity:.68}
+    .item.done .badge{background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.25)}
+    .item.done .badge .mini{background:var(--accent2); box-shadow:0 0 0 6px rgba(34,197,94,.12)}
+
+    .toast{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:86px;
+      background:rgba(15,33,63,.95);
+      border:1px solid var(--line);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      box-shadow: var(--shadow);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .18s ease, transform .18s ease;
+      max-width:min(92vw, 420px);
+      font-size:13px;
+      text-align:center;
+      z-index:30;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+
+    .dock{
+      position:fixed; left:0; right:0; bottom:0;
+      padding:12px 14px 16px;
+      background:linear-gradient(180deg, rgba(11,18,32,0), rgba(11,18,32,.92) 35%, rgba(11,18,32,.98));
+      border-top:1px solid var(--line);
+      backdrop-filter: blur(10px);
+      z-index:20;
+    }
+    .dock .bar{
+      display:flex; gap:10px;
+    }
+    .dock .bar button{
+      flex:1;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      padding:12px 12px;
+      border-radius:16px;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .dock .bar button.primary{
+      border-color:rgba(124,92,255,.45);
+      background:linear-gradient(135deg, rgba(124,92,255,.35), rgba(124,92,255,.12));
+    }
+
+    @media (min-width:560px){
+      .wrap{max-width:520px;margin:0 auto;}
+      header{padding-left:calc((100vw - 520px)/2 + 14px); padding-right:calc((100vw - 520px)/2 + 14px);}
+      .dock{left:50%; transform:translateX(-50%); width:520px; border-left:1px solid var(--line); border-right:1px solid var(--line); border-top-left-radius:18px; border-top-right-radius:18px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <div class="h">北部一日旅遊行程</div>
+        <div class="s">行程卡片可勾選完成、展開細節、快速導航</div>
+      </div>
+      <div class="pill" id="progressPill" title="完成進度">
+        <span class="dot"></span>
+        <span id="progressText">0 / 0 完成</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="seg" role="tablist" aria-label="行程篩選">
+        <button id="fAll" class="active" type="button">全部</button>
+        <button id="fTodo" type="button">未完成</button>
+        <button id="fDone" type="button">已完成</button>
+      </div>
+      <button class="btn" id="resetBtn" type="button">重置勾選</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <main class="timeline" id="timeline"></main>
+  </div>
+
+  <div class="toast" id="toast">已複製</div>
+
+  <div class="dock">
+    <div class="bar">
+      <button class="primary" id="openAll" type="button">全部展開</button>
+      <button id="closeAll" type="button">全部收合</button>
+    </div>
+  </div>
+
+  <script>
+    // ===== 行程資料 =====
+    // place 用於 Google 地圖搜尋 / 導航，tags 用於顯示重點。
+    const schedule = [
+      { id: 's1', time: '09:20', title: '公司出發', place: 'CAAM 承德 172', tags: ['集合', '出發'] },
+      { id: 's2', time: '10:20', title: '抵達', place: '猴硐遊客中心', tags: ['抵達', '貓村'] },
+      { id: 's3', time: '10:40', title: '步行至', place: '猴硐車站', note: '可安排：猴硐貓村 / 猴硐煤礦博物園區 / 猴硐坑休閒園區', tags: ['步行', '景點'] },
+      { id: 's4', time: '12:00', title: '開車離開', place: '猴硐', tags: ['離開', '上車'] },
+      { id: 's5', time: '12:15', title: '午餐', place: '九份星塵景觀餐廳', tags: ['午餐', '景觀'] },
+      { id: 's6', time: '13:30', title: '飯後散步', place: '九份老街（九份派出所旁的豎崎路）', tags: ['步行', '老街'] },
+      { id: 's7', time: '15:30', title: '集合返程', place: '台陽停車場（九份）', tags: ['集合', '返程'] },
+    ];
+
+    const STORAGE_KEY = 'travel_itinerary_done_v1';
+
+    const $ = (sel) => document.querySelector(sel);
+    const container = $('#timeline');
+    const toast = $('#toast');
+    const progressText = $('#progressText');
+
+    const fAll = $('#fAll');
+    const fTodo = $('#fTodo');
+    const fDone = $('#fDone');
+
+    let filterMode = 'all'; // all | todo | done
+
+    function safeParse(json, fallback){
+      try{ return JSON.parse(json) ?? fallback; }catch{ return fallback; }
+    }
+
+    function getDoneMap(){
+      return safeParse(localStorage.getItem(STORAGE_KEY), {});
+    }
+
+    function setDoneMap(map){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+    }
+
+    function mapsSearchUrl(place){
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}`;
+    }
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      window.clearTimeout(showToast._t);
+      showToast._t = window.setTimeout(() => toast.classList.remove('show'), 1200);
+    }
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast('已複製：' + text);
+      }catch{
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('已複製：' + text);
+      }
+    }
+
+    function setActiveFilter(btn){
+      [fAll,fTodo,fDone].forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function updateProgress(){
+      const doneMap = getDoneMap();
+      const doneCount = schedule.filter(s => doneMap[s.id]).length;
+      progressText.textContent = `${doneCount} / ${schedule.length} 完成`;
+    }
+
+    function shouldShowItem(isDone){
+      if(filterMode === 'all') return true;
+      if(filterMode === 'todo') return !isDone;
+      if(filterMode === 'done') return isDone;
+      return true;
+    }
+
+    function render(){
+      container.innerHTML = '';
+      const doneMap = getDoneMap();
+
+      schedule.forEach((item) => {
+        const isDone = Boolean(doneMap[item.id]);
+        if(!shouldShowItem(isDone)) return;
+
+        const mapUrl = mapsSearchUrl(item.place);
+        const card = document.createElement('section');
+        card.className = 'item' + (isDone ? ' done' : '');
+        card.dataset.id = item.id;
+
+        const tagsHtml = (item.tags || []).map(t => `<span class="chip">${t}</span>`).join('');
+
+        card.innerHTML = `
+          <div class="row">
+            <div class="badge"><div class="mini"></div></div>
+            <div class="content">
+              <div class="meta">
+                <div class="time">${item.time}</div>
+                <button class="btn" type="button" data-copy="${encodeURIComponent(item.place)}" style="padding:8px 10px;border-radius:12px;">複製地點</button>
+              </div>
+              <div class="title">${item.title}</div>
+              <div class="place">${item.place}</div>
+              <div class="chips">${tagsHtml}</div>
+
+              <div class="state">
+                <input class="check" type="checkbox" ${isDone ? 'checked' : ''} data-done="${item.id}" aria-label="標記完成" />
+                <div class="label">勾選表示完成（會自動記住）</div>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>
+              <span>操作與細節</span>
+              <span style="opacity:.8">▾</span>
+            </summary>
+            ${item.note ? `<div style="color:var(--muted); font-size:13px; line-height:1.5; margin-top:6px;">${item.note}</div>` : ''}
+            <div class="actions">
+              <a class="a primary" href="${mapUrl}" target="_blank" rel="noopener">Google 導航</a>
+              <a class="a good" href="${mapUrl}&travelmode=driving" target="_blank" rel="noopener">開車模式</a>
+            </div>
+          </details>
+        `;
+
+        container.appendChild(card);
+      });
+
+      updateProgress();
+    }
+
+    // ===== 事件：勾選完成 / 複製地點 =====
+    container.addEventListener('click', async (e) => {
+      const t = e.target;
+      if(t && t.matches('input[data-done]')){
+        const id = t.getAttribute('data-done');
+        const doneMap = getDoneMap();
+        doneMap[id] = t.checked;
+        setDoneMap(doneMap);
+        render();
+        return;
+      }
+
+      if(t && t.matches('button[data-copy]')){
+        const place = decodeURIComponent(t.getAttribute('data-copy') || '');
+        await copyText(place);
+      }
+    });
+
+    // ===== 篩選 =====
+    fAll.addEventListener('click', () => { filterMode='all'; setActiveFilter(fAll); render(); });
+    fTodo.addEventListener('click', () => { filterMode='todo'; setActiveFilter(fTodo); render(); });
+    fDone.addEventListener('click', () => { filterMode='done'; setActiveFilter(fDone); render(); });
+
+    // ===== 重置 =====
+    $('#resetBtn').addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      render();
+      showToast('已重置勾選');
+    });
+
+    // ===== 全部展開/收合 =====
+    function setAllDetails(open){
+      document.querySelectorAll('#timeline details').forEach(d => d.open = open);
+    }
+    $('#openAll').addEventListener('click', () => setAllDetails(true));
+    $('#closeAll').addEventListener('click', () => setAllDetails(false));
+
+    // 首次渲染
+    render();
+  </script>
+</body>
 </html>
+
