@@ -331,26 +331,26 @@
 
     <header>
       <div class="topbar">
-        <div class="chip" id="chipDate">2024.05.20</div>
+        <div class="chip" id="chipDate">2026.09.20</div>
         <button class="pin" id="openMapAll" type="button" title="打開 Google 地圖（路線模式）">
           <span class="i map" aria-hidden="true"></span>
         </button>
       </div>
 
       <h1>探索猴硐與九份</h1>
-      <p class="sub">共 1 天行程・探索猴硐與九份山城</p>
+      <p class="sub">公司 1 日小旅行・探索猴硐與九份</p>
     </header>
 
     <div class="wrap">
       <section class="dayCard">
         <div class="dayBadge" aria-hidden="true">
           <div class="t">DAY</div>
-          <div class="n">01</div>
+          <div class="n">20</div>
           <div class="dot"></div>
         </div>
         <div class="dayInfo">
-          <h2 class="title">Day 1 ／ 猴硐九份一日遊</h2>
-          <p class="desc">山城健行與貓村時光。每一張行程卡片都可直接點擊，立刻開啟 Google 導航。</p>
+          <h2 class="title"> 猴硐九份一日遊</h2>
+          <p class="desc">山上健行與貓村時光。每一張行程卡片都可直接點擊，立刻開啟 Google 導航。</p>
 
           <div class="remind">
             <div class="icon" aria-hidden="true">!</div>
@@ -366,7 +366,7 @@
 
   <script>
     // ========= 可自行修改的設定 =========
-    const TRIP_DATE = '2024.05.20'; // 左上角日期：未來只要改這一行即可
+    const TRIP_DATE = '2026.09.20'; // 左上角日期：未來只要改這一行即可
 
     // ========= 行程資料（圖片使用本地 PNG；避免外連失效與亂碼） =========
     const schedule = [
@@ -375,7 +375,7 @@
         type: '交通',
         place: 'CAAM承德172',
         subtitle: '公司出發',
-        intro: '集合準時出發，確認隨身物品與飲水，準備開啟今日的山城小旅行。',
+        intro: '集合準時出發，確認隨身物品與飲水，準備開啟今日的公司小旅行。',
         img: './images/start.png',
         highlight: '建議提早 5 分鐘到場集合',
       },
@@ -384,7 +384,7 @@
         type: '活動',
         place: '猴硐遊客中心',
         subtitle: '抵達',
-        intro: '抵達猴硐後先在遊客中心休整，確認路線與周邊資訊，再開始探索貓村。',
+        intro: '抵達猴硐後先在遊客中心，確認路線與周邊資訊，再開始探索貓村。',
         img: './images/houtong-center.png',
         highlight: '可先補水、上洗手間、拿導覽資訊',
       },
@@ -392,13 +392,13 @@
         time: '10:40',
         type: '景點',
         place: '猴硐車站周邊',
-        subtitle: '步行抵達（貓村／煤礦園區／休閒園區）',
-        intro: '步行抵達。走訪猴硐貓村、猴硐煤礦博物園區與猴硐坑休閒園區，感受獨特氛圍。',
+        subtitle: '步行抵達（貓村／煤礦園區）',
+        intro: '步行抵達。走訪猴硐貓村與猴硐煤礦博物園區，感受獨特氛圍。',
         img: './images/houtong-station.png',
         highlight: '貓奴天堂與礦業歷史一次滿足',
       },
       {
-        time: '12:00',
+        time: '11:45',
         type: '交通',
         place: '離開猴硐',
         subtitle: '開車前往九份',
@@ -407,7 +407,7 @@
         highlight: '上車前建議先補充水分',
       },
       {
-        time: '12:15',
+        time: '12:00',
         type: '美食',
         place: '九份星塵景觀餐廳',
         subtitle: '午餐',
@@ -420,9 +420,9 @@
         type: '景點',
         place: '九份老街（豎崎路入口）',
         subtitle: '飯後散步',
-        intro: '從派出所旁的豎崎路出發，漫步九份老街，沿途小吃、茶館與山城巷弄，慢慢逛最有味道。',
+        intro: '從派出所旁的豎崎路出發，漫步九份老街，沿途小吃、茶館與巷弄，慢慢逛最有味道。',
         img: './images/jiufen-oldstreet.png',
-        highlight: '建議穿好走的鞋、留意階梯路段',
+        highlight: '建議穿好走的鞋，留意階梯路段',
         // 需求：顯示名稱不變，但導航目的地改成指定地址（可自行修改）
         destination: '九份紅樓景觀餐廳 224008新北市瑞芳區輕便路131號'
       },
@@ -522,9 +522,7 @@
 
     render();
 
-    // ========= 教學：如何修改「九份老街」導航目的地 =========
-    // 只要找到 schedule 裡 place = '九份老街（豎崎路入口）' 這一段，
-    // 修改 destination 這一行即可，例如：
+    // ========= 修改「九份老街」導航目的地 =========
     // destination: '九份紅樓景觀餐廳 224008新北市瑞芳區輕便路131號'
   </script>
 </body>
