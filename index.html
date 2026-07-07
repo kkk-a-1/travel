@@ -179,11 +179,11 @@
   <script>
     const company={name:'公司',address:'臺北市士林區前港里承德路四段172號'};
     const schedule=[
-      {time:'09:00',type:'集合出發',place:'公司',subtitle:'臺北出發',address:'臺北市士林區前港里承德路四段172號',intro:'準時集合出發，確認人數、隨身物品與飲水，準備前往宜蘭展開一日活動。',highlight:'建議提早 10 分鐘到場，避免影響後續行程。',mode:'driving',reserve:false,image:'assets/departure.webp'},
-      {time:'10:30',type:'手作體驗',place:'大風吹手作館',subtitle:'創意手作時光',address:'宜蘭縣冬山鄉柯林村光華三路129號',intro:'以輕鬆有趣的方式進行手作體驗，適合員工互動、拍照與留下今日旅行小紀念。',highlight:'可依現場安排體驗活動，建議保留作品包裝空間。',mode:'driving',reserve:true,reserveText:'Google 店家資訊',image:'assets/craft.webp'},
-      {time:'12:00',type:'午餐',place:'甕窯雞 礁溪總店',subtitle:'宜蘭人氣美食',address:'宜蘭縣礁溪鄉白雲村礁溪路七段7之7號',intro:'享用宜蘭招牌甕窯雞與合菜料理，補充體力後再前往下午的文化景點。',highlight:'用餐尖峰建議事先電話確認或透過 Google 店家頁查看訂位／聯絡資訊。',mode:'driving',reserve:true,reserveText:'訂位／店家資訊',image:'assets/lunch.webp'},
-      {time:'14:00',type:'文化景點',place:'蘭陽博物館',subtitle:'認識蘭陽地景與人文',address:'宜蘭縣頭城鎮港口里青雲路三段750號',intro:'參觀蘭陽博物館，透過建築、展覽與宜蘭在地故事，感受蘭陽平原的自然與文化。',highlight:'館內參觀請留意集合時間，戶外拍照可注意防曬與補水。',mode:'driving',reserve:true,reserveText:'Google 店家資訊',image:'assets/museum.webp'},
-      {time:'15:30',type:'返程',place:'離開宜蘭',subtitle:'準備回公司',address:'宜蘭縣頭城鎮青雲路三段750號',intro:'於指定時間集合上車，清點人員與物品後返回臺北。',highlight:'請準時回到集合點，避免延誤返程時間。',mode:'driving',reserve:false,image:'assets/leave.webp'},
+      {time:'09:00-10:30',type:'集合出發',place:'公司',subtitle:'臺北出發',address:'臺北市士林區前港里承德路四段172號',intro:'準時集合出發，確認人數、隨身物品與飲水，準備前往宜蘭展開一日活動。',highlight:'建議提早 10 分鐘到場，避免影響後續行程。',mode:'driving',reserve:false,image:'assets/departure.webp'},
+      {time:'10:30-11:30',type:'手作體驗',place:'大風吹手作館',subtitle:'創意手作時光',address:'宜蘭縣冬山鄉柯林村光華三路129號',intro:'以輕鬆有趣的方式進行手作體驗，適合員工互動、拍照與留下今日旅行小紀念。',highlight:'可依現場安排體驗活動，建議保留作品包裝空間。',mode:'driving',reserve:true,reserveText:'Google 店家資訊',image:'assets/craft.webp'},
+      {time:'12:00-13:30',type:'午餐',place:'甕窯雞 礁溪總店',subtitle:'宜蘭人氣美食',address:'宜蘭縣礁溪鄉白雲村礁溪路七段7之7號',intro:'享用宜蘭招牌甕窯雞與合菜料理，補充體力後再前往下午的文化景點。',highlight:'用餐尖峰建議事先電話確認或透過 Google 店家頁查看訂位／聯絡資訊。',mode:'driving',reserve:true,reserveText:'訂位／店家資訊',image:'assets/lunch.webp'},
+      {time:'14:00-15:30',type:'文化景點',place:'蘭陽博物館',subtitle:'認識蘭陽地景與人文',address:'宜蘭縣頭城鎮港口里青雲路三段750號',intro:'參觀蘭陽博物館，透過建築、展覽與宜蘭在地故事，感受蘭陽平原的自然與文化。',highlight:'館內參觀請留意集合時間，戶外拍照可注意防曬與補水。',mode:'driving',reserve:true,reserveText:'Google 店家資訊',image:'assets/museum.webp'},
+      {time:'15:30-16:30',type:'返程',place:'離開宜蘭',subtitle:'準備回公司',address:'宜蘭縣頭城鎮青雲路三段750號',intro:'於指定時間集合上車，清點人員與物品後返回臺北。',highlight:'請準時回到集合點，避免延誤返程時間。',mode:'driving',reserve:false,image:'assets/leave.webp'},
       {time:'16:30',type:'抵達',place:'回到公司',subtitle:'活動圓滿結束',address:'臺北市士林區前港里承德路四段172號',intro:'回到公司，結束今日宜蘭一日員工活動。',highlight:'辛苦大家，期待下一次員工活動日！',mode:'driving',reserve:false,image:'assets/return.webp'}
     ];
 
